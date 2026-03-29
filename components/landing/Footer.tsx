@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { FooterBg } from "./SectionBg";
 import { RippleLink } from "./RippleLink";
 import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
 
@@ -25,7 +26,8 @@ const social = [
 
 export function Footer() {
   return (
-    <footer id="contact" className="scroll-mt-20 bg-black pb-14 pt-20">
+    <footer id="contact" className="relative scroll-mt-20 bg-black pb-14 pt-20">
+      <FooterBg />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

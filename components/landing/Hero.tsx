@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { HeroBg } from "./SectionBg";
 import { RippleLink } from "./RippleLink";
 import { staggerContainer, staggerItem } from "./variants";
 
@@ -10,6 +11,7 @@ export function Hero() {
       className="relative overflow-hidden border-b border-[#800000]/40"
       aria-labelledby="hero-heading"
     >
+      <HeroBg />
       {/* Local depth only — global cursor/parallax lives in CursorParallaxBackground */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.55)_100%)]" />
 

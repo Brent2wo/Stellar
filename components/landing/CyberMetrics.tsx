@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { MetricsBg } from "./SectionBg";
 import { InViewCounter } from "./InViewCounter";
 import { MetricsBarChart, MetricsLineChart } from "./MetricsChartPanels";
 import {
@@ -80,8 +81,9 @@ export function CyberMetrics() {
   return (
     <section
       id="metrics"
-      className="scroll-mt-20 border-y border-[#800000]/25 bg-[radial-gradient(ellipse_100%_80%_at_50%_0%,rgba(128,0,0,0.18),transparent_55%)] py-20 sm:py-28"
+      className="relative scroll-mt-20 border-y border-[#800000]/25 bg-[radial-gradient(ellipse_100%_80%_at_50%_0%,rgba(128,0,0,0.18),transparent_55%)] py-20 sm:py-28"
     >
+      <MetricsBg />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

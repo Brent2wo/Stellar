@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
+import { TestimonialsBg } from "./SectionBg";
 import { fadeSlideUp, lineReveal, staggerTextBlock, viewportOnce } from "./variants";
 
 const items = [
@@ -70,8 +71,9 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-24"
+      className="relative scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-24"
     >
+      <TestimonialsBg />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

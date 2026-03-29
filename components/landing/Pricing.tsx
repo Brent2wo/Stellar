@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { PricingBg } from "./SectionBg";
 import { RippleLink } from "./RippleLink";
 import {
   fadeSlideUp,
@@ -69,8 +70,9 @@ export function Pricing() {
   return (
     <section
       id="pricing"
-      className="scroll-mt-20 border-y border-[#800000]/40 bg-[linear-gradient(180deg,rgba(128,0,0,0.14)_0%,transparent_42%,rgba(0,0,0,1)_100%)] py-20 sm:py-28"
+      className="relative scroll-mt-20 border-y border-[#800000]/40 bg-[linear-gradient(180deg,rgba(128,0,0,0.14)_0%,transparent_42%,rgba(0,0,0,1)_100%)] py-20 sm:py-28"
     >
+      <PricingBg />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial="hidden"

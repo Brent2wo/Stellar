@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FeaturesBg, StackBg } from "./SectionBg";
 import { TiltCard } from "./TiltCard";
 import {
   lineReveal,
@@ -63,7 +64,8 @@ const stack = [
 export function Features() {
   return (
     <>
-      <section id="features" className="scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-24">
+      <section id="features" className="relative scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-24">
+        <FeaturesBg />
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -129,7 +131,8 @@ export function Features() {
         </div>
       </section>
 
-      <section id="stack" className="scroll-mt-20 py-20 sm:py-24">
+      <section id="stack" className="relative scroll-mt-20 py-20 sm:py-24">
+        <StackBg />
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
