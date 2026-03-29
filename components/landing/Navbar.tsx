@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { RippleLink } from "./RippleLink";
 
 const links = [
   { href: "#features", label: "Features" },
@@ -61,14 +62,11 @@ export function Navbar() {
           >
             Sign in
           </Link>
-          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-            <Link
-              href="#pricing"
-              className="ml-1 rounded-full bg-[#FFD700] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#e6c200]"
-            >
+          <div className="ml-1">
+            <RippleLink href="#pricing" variant="gold" compact>
               Protect a site
-            </Link>
-          </motion.div>
+            </RippleLink>
+          </div>
         </nav>
 
         <button
@@ -106,13 +104,17 @@ export function Navbar() {
             >
               Sign in
             </Link>
-            <Link
-              href="#pricing"
-              className="mt-1 rounded-full bg-[#FFD700] py-3 text-center text-sm font-semibold text-black"
-              onClick={() => setOpen(false)}
-            >
-              Protect a site
-            </Link>
+            <div className="mt-1 px-1">
+              <RippleLink
+                href="#pricing"
+                variant="gold"
+                fullWidth
+                className="!py-3"
+                onClick={() => setOpen(false)}
+              >
+                Protect a site
+              </RippleLink>
+            </div>
           </div>
         </div>
       ) : null}
@@ -122,10 +124,13 @@ export function Navbar() {
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="group relative px-3 py-2 text-sm text-white/78 transition-colors hover:text-white">
+    <Link
+      href={href}
+      className="group relative px-3 py-2 text-sm text-white/78 transition-colors duration-300 hover:text-white hover:[text-shadow:0_0_20px_rgba(255,215,0,0.28)]"
+    >
       {children}
       <motion.span
-        className="pointer-events-none absolute bottom-1 left-3 right-3 h-[2px] rounded-full bg-gradient-to-r from-[#FFD700] to-[#800000] origin-left"
+        className="pointer-events-none absolute bottom-1 left-3 right-3 h-[2px] origin-left rounded-full bg-gradient-to-r from-[#FFD700] to-[#800000]"
         initial={{ scaleX: 0, opacity: 0 }}
         whileHover={{ scaleX: 1, opacity: 1 }}
         transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}

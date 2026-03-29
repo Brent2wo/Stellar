@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { RippleLink } from "./RippleLink";
 import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
 
 const social = [
@@ -46,20 +47,14 @@ export function Footer() {
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href="#pricing"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-[#FFD700] px-6 text-sm font-semibold text-black transition hover:bg-[#e6c200]"
-                >
+                <RippleLink href="#pricing" variant="gold" className="!min-w-0 !px-6 !py-2.5">
                   Start with ATRAVA Defense
-                </Link>
+                </RippleLink>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  href="#pricing"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-[#800000] px-6 text-sm font-semibold text-white transition hover:border-[#FFD700]/50 hover:bg-[#800000]/35"
-                >
+                <RippleLink href="#pricing" variant="outline" className="!min-w-0 !px-6 !py-2.5">
                   Review pricing
-                </Link>
+                </RippleLink>
               </motion.div>
             </div>
           </motion.div>

@@ -53,3 +53,39 @@ body {
 .animate-testimonial-in {
   animation: testimonial-in 0.45s ease-out both;
 }
+
+/* Report-style gradient shimmer (gold → light gold → maroon) */
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.text-gradient-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    #ffd700 0%,
+    #fff8dc 22%,
+    #ffd700 44%,
+    #800000 72%,
+    #ffd700 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-shimmer {
+    animation: none;
+    color: #ffd700;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
+}

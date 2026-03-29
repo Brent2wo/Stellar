@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { RippleLink } from "./RippleLink";
 import { staggerContainer, staggerItem } from "./variants";
 
 export function Hero() {
@@ -10,15 +10,8 @@ export function Hero() {
       className="relative overflow-hidden border-b border-[#800000]/40"
       aria-labelledby="hero-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(255,215,0,0.14),transparent)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -right-24 top-1/4 h-72 w-72 rounded-full bg-[#800000]/25 blur-3xl"
-        aria-hidden
-      />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+      {/* Local depth only — global cursor/parallax lives in CursorParallaxBackground */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.55)_100%)]" />
 
       <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-16 sm:px-6 sm:pb-28 sm:pt-20 lg:px-8 lg:pb-32 lg:pt-24">
         <motion.div
@@ -29,9 +22,9 @@ export function Hero() {
         >
           <motion.p
             variants={staggerItem}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#FFD700]/35 bg-[#FFD700]/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-[#FFD700] sm:text-sm"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#FFD700]/35 bg-[#FFD700]/[0.06] px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] sm:text-sm"
           >
-            Managed WAF-as-a-service
+            <span className="text-gradient-shimmer">Managed WAF-as-a-service</span>
           </motion.p>
 
           <motion.div variants={staggerItem}>
@@ -56,22 +49,12 @@ export function Hero() {
           </motion.p>
 
           <motion.div variants={staggerItem} className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                href="#pricing"
-                className="inline-flex h-12 min-w-[200px] items-center justify-center rounded-full bg-[#FFD700] px-8 text-sm font-semibold text-black shadow-[0_0_0_1px_rgba(255,215,0,0.35)] transition-shadow hover:shadow-[0_0_32px_rgba(255,215,0,0.45)]"
-              >
-                Start protected access
-              </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                href="#features"
-                className="inline-flex h-12 min-w-[200px] items-center justify-center rounded-full border border-[#800000] bg-white/[0.03] px-8 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:border-[#FFD700]/60 hover:bg-[#800000]/35"
-              >
-                See what is protected
-              </Link>
-            </motion.div>
+            <RippleLink href="#pricing" variant="gold">
+              Start protected access
+            </RippleLink>
+            <RippleLink href="#features" variant="outline">
+              See what is protected
+            </RippleLink>
           </motion.div>
 
           <motion.div variants={staggerItem} className="mt-14 grid gap-4 border-t border-[#800000]/50 pt-10 sm:grid-cols-3">
@@ -86,7 +69,7 @@ export function Hero() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.06 * i, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-xl border border-white/10 bg-white/[0.03] p-4 backdrop-blur-sm"
+                className="rounded-xl border border-white/10 bg-white/[0.04] p-4 shadow-[0_0_0_1px_rgba(255,215,0,0.04)] backdrop-blur-sm transition-shadow hover:shadow-[0_0_24px_rgba(255,215,0,0.08)]"
               >
                 <p className="text-xs font-semibold uppercase tracking-wider text-[#FFD700]">
                   {item.k}
@@ -106,7 +89,8 @@ function GradientText({ children }: { children: React.ReactNode }) {
     <motion.span
       className="inline-block bg-clip-text text-transparent"
       style={{
-        backgroundImage: "linear-gradient(90deg, #FFD700 0%, #FFD700 35%, #800000 65%, #FFD700 100%)",
+        backgroundImage:
+          "linear-gradient(90deg, #FFD700 0%, #FFD700 35%, #800000 65%, #FFD700 100%)",
         backgroundSize: "220% 100%",
       }}
       animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}

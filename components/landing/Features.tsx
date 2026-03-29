@@ -2,7 +2,13 @@
 
 import { motion } from "framer-motion";
 import { TiltCard } from "./TiltCard";
-import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
+import {
+  lineReveal,
+  staggerContainer,
+  staggerItem,
+  staggerTextBlock,
+  viewportOnce,
+} from "./variants";
 
 const highlights = [
   {
@@ -63,18 +69,21 @@ export function Features() {
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            variants={fadeSlideUp}
+            variants={staggerTextBlock}
             className="max-w-2xl"
           >
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
-              Managed security posture
-            </p>
-            <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            <motion.p variants={lineReveal} className="text-sm font-semibold uppercase tracking-widest">
+              <span className="text-gradient-shimmer">Managed security posture</span>
+            </motion.p>
+            <motion.h2
+              variants={lineReveal}
+              className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+            >
               Protection built for live production traffic
-            </h2>
-            <p className="mt-4 text-white/70">
+            </motion.h2>
+            <motion.p variants={lineReveal} className="mt-4 text-white/70">
               Designed for websites, APIs, SaaS teams, and managed customer environments.
-            </p>
+            </motion.p>
           </motion.div>
 
           <motion.div
@@ -126,19 +135,22 @@ export function Features() {
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
-            variants={fadeSlideUp}
+            variants={staggerTextBlock}
             className="max-w-2xl"
           >
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
-              Core capabilities
-            </p>
-            <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            <motion.p variants={lineReveal} className="text-sm font-semibold uppercase tracking-widest">
+              <span className="text-gradient-shimmer">Core capabilities</span>
+            </motion.p>
+            <motion.h2
+              variants={lineReveal}
+              className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+            >
               The protection stack your customers expect from a serious WAF
-            </h2>
-            <p className="mt-4 text-white/70">
+            </motion.h2>
+            <motion.p variants={lineReveal} className="mt-4 text-white/70">
               Reverse-proxy edge, policy-driven inspection, certificate automation, operational
               visibility, and tenant-scoped control in one managed layer.
-            </p>
+            </motion.p>
           </motion.div>
 
           <motion.div

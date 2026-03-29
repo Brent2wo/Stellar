@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { InViewCounter } from "./InViewCounter";
 import { MetricsBarChart, MetricsLineChart } from "./MetricsChartPanels";
 import {
   lineReveal,
@@ -14,42 +16,71 @@ import {
 const R = 40;
 const C = 2 * Math.PI * R;
 
-function CountUp({
-  end,
-  suffix = "",
-  prefix = "",
-  className = "",
-}: {
-  end: number;
-  suffix?: string;
-  prefix?: string;
-  className?: string;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
+function DonutReplay() {
+  const [arcKey, setArcKey] = useState(0);
+  const { ref } = useInView({
+    triggerOnce: false,
+    threshold: 0.35,
+    rootMargin: "-6% 0px",
+    onChange: (visible) => {
+      if (visible) setArcKey((k) => k + 1);
+      else setArcKey(0);
+    },
+  });
 
-  useEffect(() => {
-    let frame: number;
-    const duration = 1600;
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min((t - t0) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const v = Math.floor(eased * end);
-      if (ref.current) ref.current.textContent = `${prefix}${v.toLocaleString()}${suffix}`;
-      if (p < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [end, prefix, suffix]);
-
-  return <span ref={ref} className={className} />;
+  return (
+    <div ref={ref} className="relative h-52 w-52 sm:h-56 sm:w-56">
+      <svg viewBox="0 0 100 100" className="h-full w-full">
+        <defs>
+          <linearGradient id="metricsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#FFD700" />
+            <stop offset="100%" stopColor="#800000" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r={R} fill="none" stroke="rgba(128,0,0,0.35)" strokeWidth="10" />
+        {arcKey > 0 ? (
+          <motion.circle
+            key={`arc-${arcKey}`}
+            cx="50"
+            cy="50"
+            r={R}
+            fill="none"
+            stroke="url(#metricsGrad)"
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            initial={{ strokeDashoffset: C }}
+            animate={{ strokeDashoffset: C * (1 - 0.872) }}
+            transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
+            transform="rotate(-90 50 50)"
+          />
+        ) : null}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+        {arcKey > 0 ? (
+          <motion.span
+            key={`pct-${arcKey}`}
+            className="text-3xl font-bold text-white tabular-nums"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.35, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          >
+            87%
+          </motion.span>
+        ) : (
+          <span className="text-3xl font-bold text-white/25 tabular-nums">—</span>
+        )}
+        <span className="text-xs text-white/50">blocked at edge</span>
+      </div>
+    </div>
+  );
 }
 
 export function CyberMetrics() {
   return (
     <section
       id="metrics"
-      className="scroll-mt-20 border-y border-[#800000]/25 bg-[radial-gradient(ellipse_100%_80%_at_50%_0%,rgba(128,0,0,0.2),transparent_55%)] py-20 sm:py-28"
+      className="scroll-mt-20 border-y border-[#800000]/25 bg-[radial-gradient(ellipse_100%_80%_at_50%_0%,rgba(128,0,0,0.18),transparent_55%)] py-20 sm:py-28"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -59,11 +90,8 @@ export function CyberMetrics() {
           variants={staggerTextBlock}
           className="max-w-2xl"
         >
-          <motion.p
-            variants={lineReveal}
-            className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]"
-          >
-            Operational visibility
+          <motion.p variants={lineReveal} className="text-sm font-semibold uppercase tracking-widest">
+            <span className="text-gradient-shimmer">Operational visibility</span>
           </motion.p>
           <motion.h2
             variants={lineReveal}
@@ -103,72 +131,28 @@ export function CyberMetrics() {
             variants={staggerItem}
             className="flex justify-center lg:col-span-4 lg:justify-start"
           >
-            <div className="relative h-52 w-52 sm:h-56 sm:w-56">
-              <svg viewBox="0 0 100 100" className="h-full w-full">
-                <defs>
-                  <linearGradient id="metricsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#FFD700" />
-                    <stop offset="100%" stopColor="#800000" />
-                  </linearGradient>
-                </defs>
-                <circle
-                  cx="50"
-                  cy="50"
-                  r={R}
-                  fill="none"
-                  stroke="rgba(128,0,0,0.35)"
-                  strokeWidth="10"
-                />
-                <motion.circle
-                  cx="50"
-                  cy="50"
-                  r={R}
-                  fill="none"
-                  stroke="url(#metricsGrad)"
-                  strokeWidth="10"
-                  strokeLinecap="round"
-                  strokeDasharray={C}
-                  initial={{ strokeDashoffset: C }}
-                  whileInView={{ strokeDashoffset: C * (1 - 0.872) }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
-                  transform="rotate(-90 50 50)"
-                />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                <motion.span
-                  className="text-3xl font-bold text-white tabular-nums"
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4, duration: 0.35 }}
-                >
-                  87%
-                </motion.span>
-                <span className="text-xs text-white/50">blocked at edge</span>
-              </div>
-            </div>
+            <DonutReplay />
           </motion.div>
 
           <motion.div variants={staggerItem} className="flex flex-col justify-center gap-4 lg:col-span-8">
-            <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
+            <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4 shadow-[0_0_0_1px_rgba(255,215,0,0.05)]">
               <p className="text-xs text-white/55">Requests inspected (24h)</p>
-              <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
-                <CountUp end={12400000} suffix="+" />
+              <p className="mt-2 text-2xl font-semibold text-[#FFD700]">
+                <InViewCounter end={12400000} suffix="+" />
               </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
                 <p className="text-xs text-white/55">Threat signals actioned</p>
-                <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
-                  <CountUp end={18420} />
+                <p className="mt-2 text-2xl font-semibold text-[#FFD700]">
+                  <InViewCounter end={18420} />
                 </p>
               </div>
               <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
                 <p className="text-xs text-white/55">Median edge latency</p>
-                <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
+                <p className="mt-2 text-2xl font-semibold text-[#FFD700]">
                   <span className="text-white/70">&lt;</span>
-                  <CountUp end={42} suffix="ms" />
+                  <InViewCounter end={42} suffix="ms" />
                 </p>
               </div>
             </div>

@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
-import { fadeSlideUp, viewportOnce } from "./variants";
+import { fadeSlideUp, lineReveal, staggerTextBlock, viewportOnce } from "./variants";
 
 const items = [
   {
@@ -77,15 +77,18 @@ export function Testimonials() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeSlideUp}
+          variants={staggerTextBlock}
           className="max-w-2xl"
         >
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
-            Trusted operations
-          </p>
-          <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <motion.p variants={lineReveal} className="text-sm font-semibold uppercase tracking-widest">
+            <span className="text-gradient-shimmer">Trusted operations</span>
+          </motion.p>
+          <motion.h2
+            variants={lineReveal}
+            className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+          >
             What teams say about managed protection
-          </h2>
+          </motion.h2>
         </motion.div>
 
         <motion.div

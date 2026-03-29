@@ -61,3 +61,24 @@ export const lineReveal: Variants = {
     transition: { duration: 0.58, ease: [0.22, 1, 0.36, 1] },
   },
 };
+
+/** Eyebrow / accent copy: fade + slide + optional CSS shimmer class */
+export const shimmerLine: Variants = {
+  hidden: { opacity: 0, y: 14, filter: "blur(6px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+/** Softer section entries (smooth transitions between bands) */
+export const sectionSoft: Variants = {
+  hidden: { opacity: 0, y: 32 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] },
+  },
+};

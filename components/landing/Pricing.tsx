@@ -1,8 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
+import { RippleLink } from "./RippleLink";
+import {
+  fadeSlideUp,
+  lineReveal,
+  staggerContainer,
+  staggerItem,
+  staggerTextBlock,
+  viewportOnce,
+} from "./variants";
 
 const plans = [
   {
@@ -69,17 +76,22 @@ export function Pricing() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeSlideUp}
+          variants={staggerTextBlock}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">Pricing</p>
-          <h2 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <motion.p variants={lineReveal} className="text-sm font-semibold uppercase tracking-widest">
+            <span className="text-gradient-shimmer">Pricing</span>
+          </motion.p>
+          <motion.h2
+            variants={lineReveal}
+            className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+          >
             Service plans for teams that want cyber defense handled well
-          </h2>
-          <p className="mt-4 text-white/70">
+          </motion.h2>
+          <motion.p variants={lineReveal} className="mt-4 text-white/70">
             Every plan includes managed protection, operational support, and visibility that scales
             with the applications you protect.
-          </p>
+          </motion.p>
         </motion.div>
 
         <motion.div
@@ -132,16 +144,14 @@ export function Pricing() {
                 ))}
               </ul>
               <motion.div className="mt-8" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Link
+                <RippleLink
                   href="#contact"
-                  className={`flex h-11 w-full items-center justify-center rounded-full text-sm font-semibold transition ${
-                    plan.featured
-                      ? "bg-[#FFD700] text-black hover:bg-[#e6c200]"
-                      : "border border-[#800000] text-white hover:border-[#FFD700] hover:bg-[#800000]/50"
-                  }`}
+                  variant={plan.featured ? "gold" : "outline"}
+                  fullWidth
+                  className={plan.featured ? "" : "!border-[#800000]"}
                 >
                   {plan.cta}
-                </Link>
+                </RippleLink>
               </motion.div>
             </motion.article>
           ))}
@@ -166,12 +176,13 @@ export function Pricing() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
-            <Link
+            <RippleLink
               href="#contact"
-              className="inline-flex h-11 min-w-[160px] items-center justify-center rounded-full border border-[#FFD700] px-6 text-sm font-semibold text-[#FFD700] transition hover:bg-[#FFD700] hover:text-black"
+              variant="outline"
+              className="!inline-flex !h-11 min-w-[160px] !border-[#FFD700] !bg-transparent !px-6 !text-[#FFD700] hover:!bg-[#FFD700] hover:!text-black"
             >
               Talk to sales
-            </Link>
+            </RippleLink>
           </motion.div>
         </motion.div>
       </div>

@@ -30,6 +30,7 @@ function ChartViewportCard({ title, subtitle, children }: ChartViewportCardProps
     rootMargin: "-6% 0px -6% 0px",
     onChange: (visible) => {
       if (visible) setChartKey((k) => k + 1);
+      else setChartKey(0);
     },
   });
 
