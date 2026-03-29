@@ -2,9 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
-
-const bars = [42, 68, 55, 82, 71, 94, 76, 88, 63, 91, 79, 97];
+import { MetricsBarChart, MetricsLineChart } from "./MetricsChartPanels";
+import {
+  lineReveal,
+  staggerContainer,
+  staggerItem,
+  staggerTextBlock,
+  viewportOnce,
+} from "./variants";
 
 const R = 40;
 const C = 2 * Math.PI * R;
@@ -51,19 +56,25 @@ export function CyberMetrics() {
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
-          variants={fadeSlideUp}
+          variants={staggerTextBlock}
           className="max-w-2xl"
         >
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
+          <motion.p
+            variants={lineReveal}
+            className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]"
+          >
             Operational visibility
-          </p>
-          <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          </motion.p>
+          <motion.h2
+            variants={lineReveal}
+            className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl"
+          >
             Edge intelligence you can read at a glance
-          </h2>
-          <p className="mt-4 text-white/70">
+          </motion.h2>
+          <motion.p variants={lineReveal} className="mt-4 text-white/70">
             Illustrative throughput and defense signals—mirroring how teams review blocked traffic,
             attack trends, and tenant-scoped activity in the platform dashboard.
-          </p>
+          </motion.p>
         </motion.div>
 
         <motion.div
@@ -71,50 +82,28 @@ export function CyberMetrics() {
           whileInView="visible"
           viewport={viewportOnce}
           variants={staggerContainer}
-          className="mt-14 grid gap-8 lg:grid-cols-12"
+          className="mt-14 grid gap-6 lg:grid-cols-2"
+        >
+          <motion.div variants={staggerItem}>
+            <MetricsBarChart />
+          </motion.div>
+          <motion.div variants={staggerItem}>
+            <MetricsLineChart />
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={staggerContainer}
+          className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-stretch"
         >
           <motion.div
             variants={staggerItem}
-            className="lg:col-span-5 rounded-2xl border border-white/10 bg-black/50 p-6 backdrop-blur-sm"
+            className="flex justify-center lg:col-span-4 lg:justify-start"
           >
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#FFD700]/90">
-              Traffic profile (sample)
-            </p>
-            <p className="mt-1 text-sm text-white/55">Requests indexed vs. policy-triggered blocks</p>
-            <div className="mt-6 flex h-44 items-end gap-1.5 sm:gap-2">
-              {bars.map((h, i) => (
-                <motion.div
-                  key={i}
-                  className="flex-1 rounded-t-sm bg-gradient-to-t from-[#800000]/80 to-[#FFD700]/90"
-                  initial={{ height: 0 }}
-                  whileInView={{ height: `${h}%` }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.85,
-                    delay: i * 0.04,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{ minHeight: 4 }}
-                />
-              ))}
-            </div>
-            <div className="mt-3 flex justify-between text-[10px] uppercase tracking-wider text-white/40">
-              <span>00:00</span>
-              <span>06:00</span>
-              <span>12:00</span>
-              <span>18:00</span>
-              <span>24:00</span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={staggerItem}
-            className="lg:col-span-4 rounded-2xl border border-white/10 bg-black/50 p-6 backdrop-blur-sm"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#FFD700]/90">
-              Block ratio
-            </p>
-            <div className="relative mx-auto mt-4 h-44 w-44">
+            <div className="relative h-52 w-52 sm:h-56 sm:w-56">
               <svg viewBox="0 0 100 100" className="h-full w-full">
                 <defs>
                   <linearGradient id="metricsGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -161,35 +150,37 @@ export function CyberMetrics() {
             </div>
           </motion.div>
 
-          <motion.div variants={staggerItem} className="flex flex-col gap-4 lg:col-span-3">
+          <motion.div variants={staggerItem} className="flex flex-col justify-center gap-4 lg:col-span-8">
             <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
               <p className="text-xs text-white/55">Requests inspected (24h)</p>
               <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
                 <CountUp end={12400000} suffix="+" />
               </p>
             </div>
-            <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
-              <p className="text-xs text-white/55">Threat signals actioned</p>
-              <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
-                <CountUp end={18420} />
-              </p>
-            </div>
-            <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
-              <p className="text-xs text-white/55">Median edge latency</p>
-              <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
-                <span className="text-white/70">&lt;</span>
-                <CountUp end={42} suffix="ms" />
-              </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
+                <p className="text-xs text-white/55">Threat signals actioned</p>
+                <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
+                  <CountUp end={18420} />
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#800000]/40 bg-gradient-to-br from-[#800000]/15 to-black/80 px-5 py-4">
+                <p className="text-xs text-white/55">Median edge latency</p>
+                <p className="mt-2 text-2xl font-semibold tabular-nums text-[#FFD700]">
+                  <span className="text-white/70">&lt;</span>
+                  <CountUp end={42} suffix="ms" />
+                </p>
+              </div>
             </div>
           </motion.div>
         </motion.div>
 
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ delay: 0.25, duration: 0.5 }}
-          className="mt-10 text-center text-xs text-white/40"
+          transition={{ delay: 0.15, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-12 text-center text-xs text-white/40"
         >
           Figures shown are demonstrative and for narrative context—not live tenant data.
         </motion.p>
