@@ -8,7 +8,7 @@ import { staggerContainer, staggerItem } from "./variants";
 export function Hero() {
   return (
     <section
-      className="relative overflow-hidden border-b border-[#800000]/40"
+      className="relative scroll-mt-20 overflow-hidden border-b border-[#800000]/40"
       aria-labelledby="hero-heading"
     >
       <HeroBg />

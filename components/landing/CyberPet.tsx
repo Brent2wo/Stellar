@@ -30,6 +30,27 @@ import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 
 type EyeOffset = { x: number; y: number };
 
+/** Returns the nearest named section element that contains the viewport point (x, y). */
+const SECTION_SELECTORS = [
+  '[aria-labelledby="hero-heading"]',
+  "#features",
+  "#stack",
+  "#metrics",
+  "#pricing",
+  "#testimonials",
+  "#contact",
+];
+
+function findSectionAt(x: number, y: number): Element | null {
+  for (const sel of SECTION_SELECTORS) {
+    const el = document.querySelector(sel);
+    if (!el) continue;
+    const r = el.getBoundingClientRect();
+    if (y >= r.top && y <= r.bottom && x >= r.left && x <= r.right) return el;
+  }
+  return null;
+}
+
 export function CyberPet() {
   const reduceMotion = useReducedMotion();
   const uid = useId().replace(/:/g, "p");
@@ -52,9 +73,13 @@ export function CyberPet() {
   const [mounted, setMounted] = useState(false);
 
   // Pinned state — useRef for RAF handler (avoids stale closure)
-  const pinnedRef        = useRef(false);
-  const [isPinned, setIsPinned]   = useState(false);
-  const [showBadge, setShowBadge] = useState(false);
+  const pinnedRef            = useRef(false);
+  const [isPinned, setIsPinned]     = useState(false);
+  const [showBadge, setShowBadge]   = useState(false);
+
+  // Section-scoped visibility when pinned
+  const [pinnedSection, setPinnedSection] = useState<Element | null>(null);
+  const [sectionVisible, setSectionVisible] = useState(true);
 
   // ── Mount: initialise positions from window ───────────────────────────────
   useEffect(() => {
@@ -103,24 +128,41 @@ export function CyberPet() {
     };
   }, [mounted, reduceMotion, rawX, rawY, petX, petY]);
 
+  // ── IntersectionObserver — hide pet when its pinned section scrolls away ──
+  useEffect(() => {
+    if (!pinnedSection) { setSectionVisible(true); return; }
+    const obs = new IntersectionObserver(
+      ([entry]) => setSectionVisible(entry.isIntersecting),
+      { threshold: 0.04 }
+    );
+    obs.observe(pinnedSection);
+    setSectionVisible(true); // optimistic: already visible when pinned
+    return () => obs.disconnect();
+  }, [pinnedSection]);
+
   // ── Click handler — toggle pinned ─────────────────────────────────────────
   const handleClick = useCallback(() => {
     pinnedRef.current = !pinnedRef.current;
     setIsPinned(pinnedRef.current);
     if (pinnedRef.current) {
+      // Detect & store the section the pet is currently inside
+      const section = findSectionAt(petX.get(), petY.get());
+      setPinnedSection(section);
+      setSectionVisible(true);
       setShowBadge(true);
       setTimeout(() => setShowBadge(false), 2400);
+    } else {
+      setPinnedSection(null);
+      setSectionVisible(true);
     }
-  }, []);
+  }, [petX, petY]);
 
   if (!mounted || reduceMotion) return null;
 
+  // Pet is visible when: not pinned (always follows), OR pinned + section in view
+  const petVisible = !isPinned || sectionVisible;
+
   return (
-    /*
-     * Full-screen fixed wrapper: pointer-events-none so it never blocks the page.
-     * z-[4] puts the pet above the -z-10 background but below page sections
-     * whose Framer Motion transforms create higher stacking contexts.
-     */
     <div className="pointer-events-none fixed inset-0 z-[4]" aria-hidden>
       <motion.div
         style={{
@@ -132,8 +174,11 @@ export function CyberPet() {
           position: "absolute",
         }}
         initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 0.88, scale: 1 }}
-        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        animate={{
+          opacity: petVisible ? 0.88 : 0,
+          scale:   petVisible ? 1    : 0.7,
+        }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
         {/* ── "GOOD BOY" badge (shown for ~2.4 s on pin) ─────────────────── */}
         <AnimatePresence>

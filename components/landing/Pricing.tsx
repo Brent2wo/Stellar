@@ -101,7 +101,7 @@ export function Pricing() {
           whileInView="visible"
           viewport={viewportOnce}
           variants={staggerContainer}
-          className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-1 lg:grid-cols-3"
+          className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-3"
         >
           {plans.map((plan) => (
             /*
