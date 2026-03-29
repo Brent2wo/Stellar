@@ -119,7 +119,7 @@ export function Pricing() {
                 }}
                 className={`relative flex flex-1 flex-col rounded-2xl border p-8 ${
                   plan.featured
-                    ? "border-[#FFD700]/55 bg-gradient-to-b from-[#FFD700]/12 via-black/80 to-black pt-10 shadow-[0_0_56px_rgba(255,215,0,0.14)]"
+                    ? "border-[#FFD700]/55 bg-gradient-to-b from-[#FFD700]/12 via-black/80 to-black shadow-[0_0_56px_rgba(255,215,0,0.14)]"
                     : "border-white/10 bg-black/70 hover:border-[#800000]/75"
                 }`}
               >
