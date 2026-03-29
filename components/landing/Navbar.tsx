@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const links = [
   { href: "#features", label: "Features" },
   { href: "#stack", label: "Protection stack" },
+  { href: "#metrics", label: "Insights" },
   { href: "#pricing", label: "Pricing" },
   { href: "#testimonials", label: "Clients" },
   { href: "#contact", label: "Contact" },
@@ -26,8 +28,8 @@ export function Navbar() {
     <header
       className={`sticky top-0 z-50 border-b transition-[background-color,box-shadow] duration-300 ${
         scrolled
-          ? "border-white/10 bg-black/85 shadow-[0_8px_32px_rgba(0,0,0,0.65)] backdrop-blur-xl"
-          : "border-transparent bg-black/40 backdrop-blur-md"
+          ? "border-white/10 bg-black/90 shadow-[0_8px_32px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+          : "border-transparent bg-black/50 backdrop-blur-md"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:h-[4.25rem] sm:px-6 lg:px-8">
@@ -35,39 +37,38 @@ export function Navbar() {
           href="#"
           className="group flex items-center gap-2 font-semibold tracking-tight text-white"
         >
-          <span
+          <motion.span
+            whileHover={{ rotate: [0, -4, 4, 0], transition: { duration: 0.45 } }}
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#FFD700]/40 bg-[#FFD700]/10 text-[#FFD700] transition-colors group-hover:border-[#800000]/80 group-hover:bg-[#800000]/30"
             aria-hidden
           >
             <ShieldIcon className="h-5 w-5" />
-          </span>
+          </motion.span>
           <span className="text-sm sm:text-base">
             ATRAVA <span className="text-[#FFD700]">Defense</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="rounded-md px-3 py-2 text-sm text-white/80 transition-colors hover:bg-[#800000]/35 hover:text-white"
-            >
+            <NavLink key={l.href} href={l.href}>
               {l.label}
-            </Link>
+            </NavLink>
           ))}
           <Link
             href="#contact"
-            className="ml-1 rounded-md px-3 py-2 text-sm text-white/80 transition-colors hover:bg-[#800000]/35 hover:text-white"
+            className="ml-2 rounded-md px-3 py-2 text-sm text-white/80 transition-colors hover:bg-[#800000]/35 hover:text-white"
           >
             Sign in
           </Link>
-          <Link
-            href="#pricing"
-            className="ml-1 rounded-full bg-[#FFD700] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#e6c200]"
-          >
-            Protect a site
-          </Link>
+          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+            <Link
+              href="#pricing"
+              className="ml-1 rounded-full bg-[#FFD700] px-4 py-2 text-sm font-semibold text-black transition hover:bg-[#e6c200]"
+            >
+              Protect a site
+            </Link>
+          </motion.div>
         </nav>
 
         <button
@@ -85,9 +86,9 @@ export function Navbar() {
       {open ? (
         <div
           id="mobile-nav"
-          className="border-t border-white/10 bg-black/95 px-4 py-4 md:hidden"
+          className="border-t border-white/10 bg-black/95 md:hidden"
         >
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 px-4 py-4">
             {links.map((l) => (
               <Link
                 key={l.href}
@@ -116,6 +117,20 @@ export function Navbar() {
         </div>
       ) : null}
     </header>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link href={href} className="group relative px-3 py-2 text-sm text-white/78 transition-colors hover:text-white">
+      {children}
+      <motion.span
+        className="pointer-events-none absolute bottom-1 left-3 right-3 h-[2px] rounded-full bg-gradient-to-r from-[#FFD700] to-[#800000] origin-left"
+        initial={{ scaleX: 0, opacity: 0 }}
+        whileHover={{ scaleX: 1, opacity: 1 }}
+        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      />
+    </Link>
   );
 }
 

@@ -1,4 +1,8 @@
-import { Reveal } from "./Reveal";
+"use client";
+
+import { motion } from "framer-motion";
+import { TiltCard } from "./TiltCard";
+import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
 
 const highlights = [
   {
@@ -55,79 +59,108 @@ export function Features() {
     <>
       <section id="features" className="scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <Reveal>
-            <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
-                Managed security posture
-              </p>
-              <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                Protection built for live production traffic
-              </h2>
-              <p className="mt-4 text-white/70">
-                Designed for websites, APIs, SaaS teams, and managed customer environments.
-              </p>
-            </div>
-          </Reveal>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={fadeSlideUp}
+            className="max-w-2xl"
+          >
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
+              Managed security posture
+            </p>
+            <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              Protection built for live production traffic
+            </h2>
+            <p className="mt-4 text-white/70">
+              Designed for websites, APIs, SaaS teams, and managed customer environments.
+            </p>
+          </motion.div>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {highlights.map((f, i) => (
-              <Reveal key={f.title} delayMs={i * 60}>
-                <article className="group flex h-full flex-col rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-transparent p-6 transition hover:border-[#FFD700]/40 hover:shadow-[0_0_0_1px_rgba(255,215,0,0.15)]">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={staggerContainer}
+            className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          >
+            {highlights.map((f) => (
+              <motion.div key={f.title} variants={staggerItem} className="h-full">
+                <TiltCard className="group flex h-full flex-col">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FFD700]/30 bg-[#FFD700]/10 text-[#FFD700] transition group-hover:border-[#800000] group-hover:bg-[#800000]/40">
                     <f.icon className="h-6 w-6" />
                   </div>
                   <h3 className="text-lg font-semibold text-white">{f.title}</h3>
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">{f.body}</p>
                   <div className="mt-4 h-px w-12 bg-[#800000] transition group-hover:w-full group-hover:bg-[#FFD700]/50" />
-                </article>
-              </Reveal>
+                </TiltCard>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <Reveal>
-            <ul className="mt-12 flex flex-wrap gap-3">
-              {["OWASP CRS coverage", "Multi-tenant controls", "Analytics & logging", "Managed SSL"].map(
-                (tag) => (
-                  <li
-                    key={tag}
-                    className="rounded-full border border-[#800000]/60 px-4 py-1.5 text-xs font-medium text-white/85"
-                  >
-                    {tag}
-                  </li>
-                ),
-              )}
-            </ul>
-          </Reveal>
+          <motion.ul
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={staggerContainer}
+            className="mt-12 flex flex-wrap gap-3"
+          >
+            {["OWASP CRS coverage", "Multi-tenant controls", "Analytics & logging", "Managed SSL"].map(
+              (tag) => (
+                <motion.li
+                  key={tag}
+                  variants={staggerItem}
+                  className="rounded-full border border-[#800000]/60 px-4 py-1.5 text-xs font-medium text-white/85"
+                >
+                  {tag}
+                </motion.li>
+              ),
+            )}
+          </motion.ul>
         </div>
       </section>
 
       <section id="stack" className="scroll-mt-20 py-20 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <Reveal>
-            <div className="max-w-2xl">
-              <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
-                Core capabilities
-              </p>
-              <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
-                The protection stack your customers expect from a serious WAF
-              </h2>
-              <p className="mt-4 text-white/70">
-                Reverse-proxy edge, policy-driven inspection, certificate automation, operational
-                visibility, and tenant-scoped control in one managed layer.
-              </p>
-            </div>
-          </Reveal>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={fadeSlideUp}
+            className="max-w-2xl"
+          >
+            <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
+              Core capabilities
+            </p>
+            <h2 className="mt-3 border-l-4 border-[#800000] pl-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+              The protection stack your customers expect from a serious WAF
+            </h2>
+            <p className="mt-4 text-white/70">
+              Reverse-proxy edge, policy-driven inspection, certificate automation, operational
+              visibility, and tenant-scoped control in one managed layer.
+            </p>
+          </motion.div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {stack.map((item, i) => (
-              <Reveal key={item.title} delayMs={i * 50}>
-                <article className="h-full rounded-2xl border border-white/10 bg-black p-6 transition hover:border-[#800000]/80 hover:bg-[#800000]/10">
-                  <h3 className="text-lg font-semibold text-[#FFD700]">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/75">{item.body}</p>
-                </article>
-              </Reveal>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={staggerContainer}
+            className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {stack.map((item) => (
+              <motion.article
+                key={item.title}
+                variants={staggerItem}
+                whileHover={{ y: -4, transition: { type: "spring", stiffness: 400, damping: 22 } }}
+                className="h-full rounded-2xl border border-white/10 bg-black p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] transition-colors hover:border-[#800000]/85 hover:bg-[#800000]/12"
+              >
+                <h3 className="text-lg font-semibold text-[#FFD700]">{item.title}</h3>
+                <div className="my-4 h-px w-full bg-gradient-to-r from-[#800000] via-[#FFD700]/30 to-transparent" />
+                <p className="text-sm leading-relaxed text-white/75">{item.body}</p>
+              </motion.article>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

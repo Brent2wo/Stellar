@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeSlideUp, staggerContainer, staggerItem, viewportOnce } from "./variants";
 
 const social = [
   {
@@ -20,42 +24,53 @@ const social = [
 
 export function Footer() {
   return (
-    <footer id="contact" className="scroll-mt-20 border-t border-[#800000]/40 bg-black pb-12 pt-16">
+    <footer id="contact" className="scroll-mt-20 bg-black pb-14 pt-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr]">
-          <div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={staggerContainer}
+          className="grid gap-14 lg:grid-cols-[1.15fr_1fr]"
+        >
+          <motion.div variants={staggerItem}>
             <p className="text-sm font-semibold uppercase tracking-widest text-[#FFD700]">
               ATRAVA Defense
             </p>
-            <h2 className="mt-3 text-2xl font-bold tracking-tight text-white">
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-white md:text-3xl">
               Protect production websites and APIs with a managed enterprise WAF
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/65">
               Deliver credible protection with managed SSL, policy enforcement, threat visibility, and
               controls built for live environments—operated by Filipino cybersecurity professionals.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="#pricing"
-                className="inline-flex h-11 items-center justify-center rounded-full bg-[#FFD700] px-6 text-sm font-semibold text-black transition hover:bg-[#e6c200]"
-              >
-                Start with ATRAVA Defense
-              </Link>
-              <Link
-                href="#pricing"
-                className="inline-flex h-11 items-center justify-center rounded-full border border-[#800000] px-6 text-sm font-semibold text-white transition hover:border-[#FFD700] hover:bg-[#800000]/40"
-              >
-                Review pricing
-              </Link>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                <Link
+                  href="#pricing"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-[#FFD700] px-6 text-sm font-semibold text-black transition hover:bg-[#e6c200]"
+                >
+                  Start with ATRAVA Defense
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                <Link
+                  href="#pricing"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-[#800000] px-6 text-sm font-semibold text-white transition hover:border-[#FFD700]/50 hover:bg-[#800000]/35"
+                >
+                  Review pricing
+                </Link>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-8 sm:grid-cols-2">
+          <motion.div variants={staggerItem} className="grid gap-10 sm:grid-cols-2">
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#800000]">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#800000]">
                 Contact
               </h3>
-              <ul className="mt-4 space-y-3 text-sm text-white/80">
+              <div className="mt-4 h-px w-12 bg-gradient-to-r from-[#FFD700] to-transparent" />
+              <ul className="mt-5 space-y-3 text-sm text-white/75">
                 <li>
                   <a
                     href="mailto:hello@atravad.cisoasaservice.io"
@@ -69,33 +84,36 @@ export function Footer() {
                     +63 (2) 000-0000
                   </a>
                 </li>
-                <li className="text-white/55">Business hours &amp; 24/7 on select plans</li>
+                <li className="text-white/50">Business hours &amp; 24/7 on select plans</li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#800000]">
+              <h3 className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#800000]">
                 Follow
               </h3>
-              <ul className="mt-4 flex flex-wrap gap-3">
+              <div className="mt-4 h-px w-12 bg-gradient-to-r from-[#FFD700] to-transparent" />
+              <ul className="mt-5 flex flex-wrap gap-3">
                 {social.map((s) => (
                   <li key={s.name}>
-                    <a
+                    <motion.a
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/80 transition hover:border-[#FFD700] hover:bg-[#800000]/40 hover:text-[#FFD700]"
+                      whileHover={{ y: -2, scale: 1.06 }}
+                      whileTap={{ scale: 0.96 }}
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-white/12 text-[#FFD700] transition hover:border-[#FFD700]/60 hover:bg-[#800000]/30 hover:shadow-[0_0_20px_rgba(255,215,0,0.15)]"
                       aria-label={s.name}
                     >
                       <s.icon className="h-5 w-5" />
-                    </a>
+                    </motion.a>
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 text-xs text-white/45">
+              <p className="mt-8 text-xs text-white/40">
                 Reference:{" "}
                 <a
                   href="https://atravad-waf.cisoasaservice.io/"
-                  className="text-[#FFD700]/80 underline-offset-2 hover:underline"
+                  className="text-[#FFD700]/85 underline-offset-2 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -103,23 +121,31 @@ export function Footer() {
                 </a>
               </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-[#800000]/40 pt-8 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} ATRAVA Defense. All rights reserved.</p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="#" className="hover:text-[#FFD700]">
-              Privacy
-            </Link>
-            <Link href="#" className="hover:text-[#FFD700]">
-              Terms
-            </Link>
-            <Link href="#contact" className="hover:text-[#FFD700]">
-              Security disclosure
-            </Link>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={fadeSlideUp}
+          className="mt-16 border-t border-[#800000]/50 pt-10"
+        >
+          <div className="flex flex-col gap-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} ATRAVA Defense. All rights reserved.</p>
+            <div className="flex flex-wrap gap-6">
+              <Link href="#" className="transition hover:text-[#FFD700]">
+                Privacy
+              </Link>
+              <Link href="#" className="transition hover:text-[#FFD700]">
+                Terms
+              </Link>
+              <Link href="#contact" className="transition hover:text-[#FFD700]">
+                Security disclosure
+              </Link>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
