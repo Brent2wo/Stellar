@@ -102,30 +102,40 @@ export function Pricing() {
           className="mt-14 grid gap-8 lg:grid-cols-3 lg:items-stretch"
         >
           {plans.map((plan) => (
-            <motion.article
-              key={plan.name}
-              variants={staggerItem}
-              layout
-              whileHover={{
-                scale: plan.featured ? 1.03 : 1.025,
-                y: -6,
-                transition: { type: "spring", stiffness: 380, damping: 24 },
-              }}
-              className={`relative flex min-h-[100%] flex-col overflow-hidden rounded-2xl border p-8 ${
-                plan.featured
-                  ? "border-[#FFD700]/55 bg-gradient-to-b from-[#FFD700]/12 via-black/80 to-black shadow-[0_0_56px_rgba(255,215,0,0.14)]"
-                  : "border-white/10 bg-black/70 hover:border-[#800000]/75"
-              }`}
-            >
-              <div
-                className={`pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[#800000] to-transparent opacity-80`}
-              />
-              {plan.featured ? (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-[#800000] bg-[#800000] px-3 py-0.5 text-xs font-semibold uppercase tracking-wide text-white shadow-lg">
-                  Most popular
-                </span>
-              ) : null}
-              <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
+            /* Outer wrapper adds top padding so the badge has room to render above the card */
+            <div key={plan.name} className={plan.featured ? "pt-5" : ""}>
+              <motion.article
+                variants={staggerItem}
+                layout
+                whileHover={{
+                  scale: plan.featured ? 1.03 : 1.025,
+                  y: -6,
+                  transition: { type: "spring", stiffness: 380, damping: 24 },
+                }}
+                className={`relative flex h-full flex-col rounded-2xl border ${
+                  plan.featured
+                    ? "border-[#FFD700]/55 bg-gradient-to-b from-[#FFD700]/12 via-black/80 to-black shadow-[0_0_56px_rgba(255,215,0,0.14)] pt-10 pb-8 px-8"
+                    : "border-white/10 bg-black/70 hover:border-[#800000]/75 p-8"
+                }`}
+              >
+                {/* Decorative top gradient bar — overflow-hidden scoped here only */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1 overflow-hidden rounded-t-2xl">
+                  <div className="h-full w-full bg-gradient-to-r from-transparent via-[#800000] to-transparent opacity-80" />
+                </div>
+
+                {plan.featured ? (
+                  <motion.span
+                    initial={{ opacity: 0, scale: 0.75, y: -4 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+                    className="absolute -top-[1.1rem] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#800000] bg-[#800000] px-4 py-1 text-xs font-semibold uppercase tracking-widest text-white shadow-[0_4px_18px_rgba(128,0,0,0.55)]"
+                  >
+                    Most popular
+                  </motion.span>
+                ) : null}
+
+                <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
               <div className="mt-4 flex items-baseline gap-1">
                 <span className="text-4xl font-bold text-[#FFD700]">{plan.price}</span>
                 <span className="text-white/60">{plan.period}</span>
@@ -153,7 +163,8 @@ export function Pricing() {
                   {plan.cta}
                 </RippleLink>
               </motion.div>
-            </motion.article>
+              </motion.article>
+            </div>
           ))}
         </motion.div>
 
