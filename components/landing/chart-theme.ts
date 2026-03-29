@@ -6,14 +6,31 @@ const TEXT = "rgba(255,255,255,0.65)";
 const GRID = "rgba(255,255,255,0.06)";
 
 const baseAnimation = {
-  duration: 1400,
+  duration: 1500,
   easing: "easeOutQuart" as const,
+};
+
+/** Shared Chart.js animation phases for smooth re-draw on each mount */
+const chartAnimations = {
+  colors: {
+    type: "color" as const,
+    properties: ["color", "backgroundColor", "borderColor"],
+    duration: 1500,
+    easing: "easeOutQuart" as const,
+  },
+  numbers: {
+    type: "number" as const,
+    properties: ["x", "y", "width", "height", "innerRadius", "outerRadius"],
+    duration: 1500,
+    easing: "easeOutQuart" as const,
+  },
 };
 
 export const barChartOptions: ChartOptions<"bar"> = {
   responsive: true,
   maintainAspectRatio: false,
   animation: baseAnimation,
+  animations: chartAnimations,
   interaction: { intersect: false, mode: "index" },
   plugins: {
     legend: { display: false },
@@ -46,6 +63,7 @@ export const lineChartOptions: ChartOptions<"line"> = {
   responsive: true,
   maintainAspectRatio: false,
   animation: baseAnimation,
+  animations: chartAnimations,
   interaction: { intersect: false, mode: "index" },
   plugins: {
     legend: {
