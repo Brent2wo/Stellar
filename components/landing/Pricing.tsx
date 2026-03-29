@@ -99,11 +99,16 @@ export function Pricing() {
           whileInView="visible"
           viewport={viewportOnce}
           variants={staggerContainer}
-          className="mt-14 grid gap-8 lg:grid-cols-3 lg:items-stretch"
+          className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-1 lg:grid-cols-3"
         >
           {plans.map((plan) => (
-            /* Outer wrapper adds top padding so the badge has room to render above the card */
-            <div key={plan.name} className={plan.featured ? "pt-5" : ""}>
+            /*
+             * Every column gets the same pt-5 + flex-col so all three cells
+             * are identical height containers. The featured card's badge lives
+             * in that 20px top slot; non-featured cards leave it blank.
+             * This makes the grid rows perfectly uniform across all breakpoints.
+             */
+            <div key={plan.name} className="flex flex-col pt-5">
               <motion.article
                 variants={staggerItem}
                 layout
@@ -112,10 +117,10 @@ export function Pricing() {
                   y: -6,
                   transition: { type: "spring", stiffness: 380, damping: 24 },
                 }}
-                className={`relative flex h-full flex-col rounded-2xl border ${
+                className={`relative flex flex-1 flex-col rounded-2xl border p-8 ${
                   plan.featured
-                    ? "border-[#FFD700]/55 bg-gradient-to-b from-[#FFD700]/12 via-black/80 to-black shadow-[0_0_56px_rgba(255,215,0,0.14)] pt-10 pb-8 px-8"
-                    : "border-white/10 bg-black/70 hover:border-[#800000]/75 p-8"
+                    ? "border-[#FFD700]/55 bg-gradient-to-b from-[#FFD700]/12 via-black/80 to-black pt-10 shadow-[0_0_56px_rgba(255,215,0,0.14)]"
+                    : "border-white/10 bg-black/70 hover:border-[#800000]/75"
                 }`}
               >
                 {/* Decorative top gradient bar — overflow-hidden scoped here only */}
@@ -123,6 +128,7 @@ export function Pricing() {
                   <div className="h-full w-full bg-gradient-to-r from-transparent via-[#800000] to-transparent opacity-80" />
                 </div>
 
+                {/* "Most popular" badge — sits in the pt-5 space above the card */}
                 {plan.featured ? (
                   <motion.span
                     initial={{ opacity: 0, scale: 0.75, y: -4 }}
@@ -135,34 +141,40 @@ export function Pricing() {
                   </motion.span>
                 ) : null}
 
+                {/* ── Card body ── */}
                 <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
-              <div className="mt-4 flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-[#FFD700]">{plan.price}</span>
-                <span className="text-white/60">{plan.period}</span>
-              </div>
-              <div className="my-4 h-px w-full bg-gradient-to-r from-[#800000] via-[#FFD700]/25 to-[#800000]" />
-              <p className="text-sm font-medium text-[#FFD700]/90">{plan.annual}</p>
-              <p className="mt-4 text-sm text-white/75">{plan.blurb}</p>
-              <ul className="mt-6 flex-1 space-y-3 text-sm text-white/85">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex gap-2">
-                    <span className="mt-0.5 shrink-0 text-[#FFD700]" aria-hidden>
-                      ✓
-                    </span>
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <motion.div className="mt-8" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <RippleLink
-                  href="#contact"
-                  variant={plan.featured ? "gold" : "outline"}
-                  fullWidth
-                  className={plan.featured ? "" : "!border-[#800000]"}
-                >
-                  {plan.cta}
-                </RippleLink>
-              </motion.div>
+
+                <div className="mt-4 flex items-baseline gap-1">
+                  <span className="text-4xl font-bold text-[#FFD700]">{plan.price}</span>
+                  <span className="text-white/60">{plan.period}</span>
+                </div>
+
+                <div className="my-4 h-px w-full bg-gradient-to-r from-[#800000] via-[#FFD700]/25 to-[#800000]" />
+
+                <p className="text-sm font-medium text-[#FFD700]/90">{plan.annual}</p>
+                <p className="mt-4 text-sm leading-relaxed text-white/75">{plan.blurb}</p>
+
+                {/* Feature list — flex-1 pushes the CTA to the bottom of every card */}
+                <ul className="mt-6 flex-1 space-y-3 text-sm text-white/85">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex gap-2">
+                      <span className="mt-0.5 shrink-0 text-[#FFD700]" aria-hidden>✓</span>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA always anchored to the bottom */}
+                <motion.div className="mt-8" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <RippleLink
+                    href="#contact"
+                    variant={plan.featured ? "gold" : "outline"}
+                    fullWidth
+                    className={plan.featured ? "" : "!border-[#800000]"}
+                  >
+                    {plan.cta}
+                  </RippleLink>
+                </motion.div>
               </motion.article>
             </div>
           ))}
