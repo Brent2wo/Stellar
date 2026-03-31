@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { RippleLink } from "./RippleLink";
 
@@ -16,102 +17,39 @@ function fadeDelay(delay: number) {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Philippines map — simplified SVG silhouettes of the main island groups.
-   Positioned right-side as a low-opacity watermark (like a geographic anchor).
+   Philippines map — real uploaded image blend.
+   Technique:
+     • invert(1)        → white bg becomes black (invisible on dark page)
+     • sepia(1)         → grey islands shift to warm amber
+     • saturate(4)      → push saturation toward gold
+     • hue-rotate(4deg) → fine-tune hue toward #FFD700
+     • opacity: 0.18    → very subtle, premium watermark feel
+     • mix-blend-mode: screen → black areas vanish, gold areas glow
 ───────────────────────────────────────────────────────────────────────────── */
 function PhilippinesMap() {
   return (
-    <svg
-      viewBox="0 0 320 540"
-      fill="none"
-      className="absolute right-0 top-1/2 h-[min(88vh,640px)] w-auto -translate-y-[48%] select-none"
+    <div
+      className="absolute right-0 top-1/2 h-[min(96vh,680px)] w-auto -translate-y-[46%] select-none"
       aria-hidden
     >
-      {/* ── Luzon — northern main island ───────────────────────────────── */}
-      <path
-        d="M 138 6
-           L 158 17 L 174 40 L 168 65 L 150 78
-           L 168 106 L 162 134 L 175 168
-           L 156 190 L 144 220 L 122 248
-           L 101 260 L 80 252 L 65 234
-           L 71 212 L 83 192 L 65 165
-           L 61 138 L 72 114 L 53 92
-           L 50 65 L 62 42 L 80 21 L 110 7 Z"
-        stroke="#FFD700" strokeWidth="1.2" strokeLinejoin="round"
-        fill="#FFD700" fillOpacity="0.06"
+      <Image
+        src="/ph-map.png"
+        alt=""
+        width={400}
+        height={600}
+        className="h-full w-auto object-contain"
+        style={{
+          filter: "invert(1) sepia(1) saturate(4) hue-rotate(4deg)",
+          opacity: 0.18,
+          mixBlendMode: "screen",
+        }}
+        priority
+        draggable={false}
       />
-
-      {/* ── Palawan — long western island ──────────────────────────────── */}
-      <path
-        d="M 22 278 L 38 264 L 50 272
-           L 54 292 L 48 320 L 42 348
-           L 34 366 L 22 360 L 16 340
-           L 14 310 L 18 288 Z"
-        stroke="#FFD700" strokeWidth="1.0" strokeLinejoin="round"
-        fill="#FFD700" fillOpacity="0.05"
-      />
-
-      {/* ── Panay ──────────────────────────────────────────────────────── */}
-      <path
-        d="M 60 285 L 86 274 L 102 286 L 97 304 L 77 310 L 58 298 Z"
-        stroke="#FFD700" strokeWidth="0.9"
-        fill="#FFD700" fillOpacity="0.05"
-      />
-
-      {/* ── Negros ─────────────────────────────────────────────────────── */}
-      <path
-        d="M 96 305 L 120 296 L 133 310 L 129 332 L 111 338 L 93 325 Z"
-        stroke="#FFD700" strokeWidth="0.9"
-        fill="#FFD700" fillOpacity="0.05"
-      />
-
-      {/* ── Cebu ───────────────────────────────────────────────────────── */}
-      <path
-        d="M 140 282 L 155 274 L 165 287 L 160 308 L 145 314 L 132 302 Z"
-        stroke="#FFD700" strokeWidth="0.9"
-        fill="#FFD700" fillOpacity="0.05"
-      />
-
-      {/* ── Samar ──────────────────────────────────────────────────────── */}
-      <path
-        d="M 182 272 L 208 264 L 226 278 L 220 296 L 200 304 L 178 288 Z"
-        stroke="#FFD700" strokeWidth="0.9"
-        fill="#FFD700" fillOpacity="0.05"
-      />
-
-      {/* ── Leyte ──────────────────────────────────────────────────────── */}
-      <path
-        d="M 180 300 L 204 291 L 215 305 L 210 326 L 194 332 L 176 318 Z"
-        stroke="#FFD700" strokeWidth="0.9"
-        fill="#FFD700" fillOpacity="0.05"
-      />
-
-      {/* ── Mindanao — large southern island ───────────────────────────── */}
-      <path
-        d="M 68 358
-           L 118 342 L 166 339 L 210 347
-           L 252 343 L 280 360 L 292 390
-           L 284 420 L 262 444 L 234 458
-           L 200 463 L 166 461 L 133 452
-           L 103 438 L 80 418 L 63 394
-           L 61 372 Z"
-        stroke="#FFD700" strokeWidth="1.2" strokeLinejoin="round"
-        fill="#FFD700" fillOpacity="0.06"
-      />
-
-      {/* ── City dots ──────────────────────────────────────────────────── */}
-      {/* Manila */}
-      <circle cx="88" cy="178" r="3.5" fill="#800000" opacity="0.55" />
-      <circle cx="88" cy="178" r="7"   fill="none" stroke="#800000" strokeWidth="0.7" opacity="0.30" />
-
-      {/* Cebu City */}
-      <circle cx="150" cy="298" r="2.5" fill="#FFD700" opacity="0.45" />
-
-      {/* Davao */}
-      <circle cx="196" cy="432" r="2.5" fill="#FFD700" opacity="0.45" />
-    </svg>
+    </div>
   );
 }
+
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Hero — Link11-inspired minimal layout
