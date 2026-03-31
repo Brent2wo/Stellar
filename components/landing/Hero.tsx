@@ -54,7 +54,7 @@ export function Hero() {
             <RippleLink href="#pricing" variant="gold">
               Start protected access
             </RippleLink>
-            <RippleLink href="#features" variant="outline">
+            <RippleLink href="#waf" variant="outline">
               See what is protected
             </RippleLink>
           </motion.div>
