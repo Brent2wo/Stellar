@@ -28,19 +28,29 @@ function fadeDelay(delay: number) {
 ───────────────────────────────────────────────────────────────────────────── */
 function PhilippinesMap() {
   return (
+    /*
+     * Covers the full right 55% of the hero at 100% viewport height.
+     * Next.js `fill` + object-contain + object-center keeps the map's
+     * natural proportions while maximising size within the container.
+     * CSS background removal:
+     *   invert(1)        → white bg → black (screens out on dark page)
+     *   sepia + saturate → grey islands → warm gold tones
+     *   mix-blend-mode: screen → black is transparent on #000 background
+     */
     <div
-      className="absolute right-0 top-1/2 h-[min(96vh,680px)] w-auto -translate-y-[46%] select-none"
+      className="absolute inset-y-0 right-0 w-full sm:w-[58%]"
+      style={{ isolation: "isolate" }}
       aria-hidden
     >
       <Image
         src="/ph-map.png"
         alt=""
-        width={400}
-        height={600}
-        className="h-full w-auto object-contain"
+        fill
+        className="select-none object-contain object-center sm:object-right"
         style={{
-          filter: "invert(1) sepia(1) saturate(4) hue-rotate(4deg)",
-          opacity: 0.18,
+          filter:
+            "invert(1) sepia(1) saturate(3.5) hue-rotate(5deg) brightness(1.1)",
+          opacity: 0.13,
           mixBlendMode: "screen",
         }}
         priority
@@ -63,21 +73,24 @@ export function Hero() {
     >
       {/* ── Background layers ─────────────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        {/* Deep maroon radial — warmth at bottom-left */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_8%_90%,rgba(128,0,0,0.25),transparent_52%)]" />
+        {/* Maroon warmth — bottom-left */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_5%_95%,rgba(128,0,0,0.28),transparent_50%)]" />
 
-        {/* Subtle gold ambient — top-right behind map */}
-        <div className="absolute -right-[8%] -top-[5%] h-[55vh] w-[55vh] rounded-full bg-[radial-gradient(circle,rgba(255,215,0,0.07),transparent_60%)] blur-3xl" />
-
-        {/* Philippines map watermark */}
+        {/* Philippines map — full right-half fill */}
         <PhilippinesMap />
 
-        {/* Gradient mask — fade from left so text stays readable */}
-        <div className="absolute inset-y-0 left-0 w-[65%] bg-gradient-to-r from-black via-black/90 to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-[20%] bg-gradient-to-l from-black to-transparent" />
+        {/* Left mask — keeps headline + body text crisp */}
+        <div className="absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-black via-black/95 to-transparent" />
+        {/* Mobile: stronger full-screen dim so text always readable */}
+        <div className="absolute inset-0 bg-black/40 sm:hidden" />
+        {/* Right edge fade */}
+        <div className="absolute inset-y-0 right-0 w-[12%] bg-gradient-to-l from-black to-transparent" />
+        {/* Top + bottom fades */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
 
-        {/* Bottom fade to next section */}
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black to-transparent" />
+
+
 
         {/* Very subtle static grid overlay */}
         <div
