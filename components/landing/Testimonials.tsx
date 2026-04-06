@@ -71,7 +71,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-24"
+      className="relative scroll-mt-20 border-b border-[#800000]/30 py-20 sm:py-28"
     >
       <TestimonialsBg />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

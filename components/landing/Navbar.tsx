@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 import { RippleLink } from "./RippleLink";
 
 const links = [
-  { href: "#waf",          label: "Capabilities" },
-  { href: "#metrics",      label: "Insights"     },
-  { href: "#pricing",      label: "Pricing"      },
-  { href: "#testimonials", label: "Clients"      },
-  { href: "#contact",      label: "Contact"      },
+  { href: "#features", label: "Features" },
+  { href: "#stack", label: "Protection stack" },
+  { href: "#metrics", label: "Insights" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#testimonials", label: "Clients" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export function Navbar() {
